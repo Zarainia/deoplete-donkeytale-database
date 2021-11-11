@@ -25,7 +25,7 @@ class Source(Base):
 	def gather_candidates(self, context: UserContext) -> Candidates:
 		syntax_elements = self.vim.call("synstack", context["position"][1], max(context["position"][2] - 1, 1))
 		syntax_names = self.vim.call("map", syntax_elements, 'synIDattr(v:val, "name")')
-		deoplete.util.debug(self.vim, syntax_names)
+		# deoplete.util.debug(self.vim, syntax_names)
 		if syntax_names:
 			if syntax_names[-1] == "databaseTexEventTypeBase":
 				return self.str_to_candidate(database_editor.EVENT_PARTICIPANT_ROLES.keys())
