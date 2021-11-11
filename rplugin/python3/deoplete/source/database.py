@@ -30,9 +30,9 @@ class Source(Base):
 			match syntax_names[-1]:
 				case "databaseTexEventTypeBase":
 					return self.str_to_candidate(database_editor.EVENT_PARTICIPANT_ROLES.keys())
-				case "databaseTexMultiTraitsNameBase" | "databaseTexMultiAddTraitsNameBase":
+				case "databaseTexMultiSelectTraitsNameBase" | "databaseTexMultiAddTraitsNameBase" | "databaseTexMultiFilterTraitsNameBase":
 					return self.str_to_candidate(latex_parser.TRAIT_NAMES)
-				case "databaseTexMultiSettingsNameBase" | "databaseTexMultiAddSettingsNameBase":
+				case "databaseTexMultiSelectSettingsNameBase" | "databaseTexMultiAddSettingsNameBase" | "databaseTexMultiFilterSettingsNameBase":
 					return self.str_to_candidate(latex_parser.SETTING_NAMES)
 				case "databaseTexConfigSettingsNameBase":
 					return self.str_to_candidate(database_editor.CONFIGURATION_FIELDS + ["division_sizes"])
