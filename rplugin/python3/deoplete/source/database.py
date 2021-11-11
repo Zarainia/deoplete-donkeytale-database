@@ -17,7 +17,7 @@ class Source(Base):
 		self.mark = '[D]'
 		self.rank = 500
 		self.min_pattern_length = 0  # start matching without anything typed
-		# self.filetypes = ["tex"]
+		self.filetypes = ["tex", "latex"]
 
 	def str_to_candidate(self, words):
 		return [{'word': word} for word in words]
@@ -27,12 +27,15 @@ class Source(Base):
 		syntax_names = self.vim.call("map", syntax_elements, 'synIDattr(v:val, "name")')
 		# deoplete.util.debug(self.vim, syntax_names)
 		if syntax_names:
-			if syntax_names[-1] == "databaseTexEventTypeBase":
-				return self.str_to_candidate(database_editor.EVENT_PARTICIPANT_ROLES.keys())
-			elif syntax_names[-1] == "databaseTexMultiTraitsNameBase":
-				return self.str_to_candidate(latex_parser.TRAIT_NAMES)
-			elif syntax_names[-1] == "databaseTexMultiSettingsNameBase":
-				return self.str_to_candidate(latex_parser.SETTING_NAMES)
+			match syntax_names[-1]:
+				case "databaseTexEventTypeBase":
+					return self.str_to_candidate(database_editor.EVENT_PARTICIPANT_ROLES.keys())
+				case "databaseTexMultiTraitsNameBase" | "databaseTexMultiAddTraitsNameBase":
+					return self.str_to_candidate(latex_parser.TRAIT_NAMES)
+				case "databaseTexMultiSettingsNameBase" | "databaseTexMultiAddSettingsNameBase":
+					return self.str_to_candidate(latex_parser.SETTING_NAMES)
+				case "databaseTexConfigSettingsNameBase":
+					return self.str_to_candidate(database_editor.CONFIGURATION_FIELDS + ["division_sizes"])
 			syntax_parts = syntax_names[-1].split('_')
 			if syntax_parts[0] == "databaseTexEvent" and len(syntax_parts) == 3:
 				if syntax_parts[2] == "ParticipantsRoleBase":
