@@ -16,16 +16,8 @@ class Source(Base):
 		self.name = 'database'
 		self.mark = '[D]'
 		self.rank = 500
-		self.vars = {}
 		self.min_pattern_length = 0  # start matching without anything typed
-		custom_vars = self.vim.call(
-			'deoplete#custom#_get_source_vars', self.name
-		)
-		if custom_vars:
-			self.vars.update(custom_vars)
-		self.vim.vars["database_completion_results"] = []
-		self.vim.vars["database_completion_calculating"] = 0
-		self.result = []
+		# self.filetypes = ["tex"]
 
 	def str_to_candidate(self, words):
 		return [{'word': word} for word in words]
@@ -33,7 +25,7 @@ class Source(Base):
 	def gather_candidates(self, context: UserContext) -> Candidates:
 		syntax_elements = self.vim.call("synstack", context["position"][1], max(context["position"][2] - 1, 1))
 		syntax_names = self.vim.call("map", syntax_elements, 'synIDattr(v:val, "name")')
-		# deoplete.util.debug(self.vim, syntax_names)
+		deoplete.util.debug(self.vim, syntax_names)
 		if syntax_names:
 			if syntax_names[-1] == "databaseTexEventTypeBase":
 				return self.str_to_candidate(database_editor.EVENT_PARTICIPANT_ROLES.keys())
