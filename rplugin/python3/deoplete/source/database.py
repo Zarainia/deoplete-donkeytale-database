@@ -36,6 +36,8 @@ class Source(Base):
 					return self.str_to_candidate(latex_parser.SETTING_NAMES)
 				case "databaseTexConfigSettingsNameBase":
 					return self.str_to_candidate(database_editor.CONFIGURATION_FIELDS + ["division_sizes"])
+				case "databaseTexMultiEditSettingsNameBase":
+					return self.str_to_candidate(latex_parser.EDITABLE_FIELDS)
 			syntax_parts = syntax_names[-1].split('_')
 			if syntax_parts[0] == "databaseTexEvent" and len(syntax_parts) == 3:
 				if syntax_parts[2] == "ParticipantsRoleBase":
